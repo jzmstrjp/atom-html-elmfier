@@ -1,18 +1,17 @@
 {
   "name": "html-elmfier",
   "main": "./lib/html-elmfier",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Please paste HTML, and it become Elm.",
   "keywords": [
-      "Elm",
-      "HTML",
-      "convert"
+    "Elm",
+    "HTML",
+    "convert"
   ],
   "repository": "https://github.com/jzmstrjp/atom-html-elmfier",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
