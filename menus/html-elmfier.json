@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Toggle html-elmfier",
+        "command": "html-elmfier:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "html-elmfier",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "html-elmfier:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
