@@ -17,6 +17,8 @@ describe('HtmlElmfier', () => {
     path.resolve(__dirname, './fixtures/copyTo.elm');
   const pathExpected =
     path.resolve(__dirname, './fixtures/expected.elm');
+  const pathExpectedIfNoExec =
+    path.resolve(__dirname, './fixtures/expectedIfNoExec.elm');
 
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace);
@@ -52,6 +54,59 @@ describe('HtmlElmfier', () => {
         const expected = values[1];
         const actual = values[2];
         expect(actual).toBe(expected);
+      }
+    ));
+  });
+
+  it('can be toggled.', () => {
+    const expectedPromiseIfOn =
+      helper.handleFileInEditor(
+        pathExpected,
+        editor => editor.getText()
+      );
+    const expectedPromiseIfOff =
+      helper.handleFileInEditor(
+        pathExpectedIfNoExec,
+        editor => editor.getText()
+      );
+
+    const createActualPromise = () => {
+      atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
+      return helper.handleFileInEditor(pathCopyFrom, editor => {
+        editor.setSelectedBufferRange([[11, 4], [28, 10]]);
+        // editor.copySelectedText();
+        return editor.getSelectedText();
+      }).then(copiedText =>
+        helper.handleFileInEditor(pathCopyTo, editor => {
+          editor.setCursorBufferPosition([1, 4]);
+          // editor.pasteText();
+          editor.insertText(copiedText);
+          return editor.getText();
+        })
+      );
+    };
+
+    const actuals = [];
+    const actualPromise = Promise.resolve()
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value))
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value))
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value));
+
+    waitsForPromise(() =>
+      Promise.all([
+        activationPromise,
+        expectedPromiseIfOn,
+        expectedPromiseIfOff,
+        actualPromise
+      ]).then(values => {
+        const expectedIfOn = values[1];
+        const expectedIfOff = values[2];
+        expect(actuals[0]).toBe(expectedIfOff);
+        expect(actuals[1]).toBe(expectedIfOn);
+        expect(actuals[2]).toBe(expectedIfOff);
       }
     ));
   });
