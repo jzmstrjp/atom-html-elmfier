@@ -1,6 +1,8 @@
 'use babel';
 
-import HtmlElmfier from '../lib/html-elmfier';
+import path from 'path';
+// import HtmlElmfier from '../lib/html-elmfier';
+import helper from './helpers/helper';
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
@@ -8,66 +10,94 @@ import HtmlElmfier from '../lib/html-elmfier';
 // or `fdescribe`). Remove the `f` to unfocus the block.
 
 describe('HtmlElmfier', () => {
-  let workspaceElement, activationPromise;
+  let workspaceElement;
+  let activationPromise;
+  const pathCopyFrom = path.resolve(__dirname,
+    './fixtures/copyFrom.html');
+  const pathCopyTo = path.resolve(__dirname,
+    './fixtures/copyTo.elm');
+  const pathExpected = path.resolve(__dirname,
+    './fixtures/expected.elm');
+  const pathExpectedIfNoExec = path.resolve(__dirname,
+    './fixtures/expectedIfNoExec.elm');
 
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace);
     activationPromise = atom.packages.activatePackage('html-elmfier');
   });
 
-  describe('when the html-elmfier:toggle event is triggered', () => {
-    it('hides and shows the modal panel', () => {
-      // Before the activation event the view is not on the DOM, and no panel
-      // has been created
-      expect(workspaceElement.querySelector('.html-elmfier')).not.toExist();
+  it('converts html to elm.', () => {
+    const expectedPromise = helper.handleFileInEditor(
+      pathExpected,
+      editor => editor.getText(),
+    );
 
-      // This is an activation event, triggering it will cause the package to be
-      // activated.
+    const actualPromise = helper.handleFileInEditor(pathCopyFrom, (editor) => {
+      editor.setSelectedBufferRange([[11, 4], [28, 10]]);
+      // editor.copySelectedText();
+      return editor.getSelectedText();
+    }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
+      editor.setCursorBufferPosition([1, 4]);
+      // editor.pasteText();
+      editor.insertText(copiedText);
+      return editor.getText();
+    }));
+
+    waitsForPromise(() => Promise.all([
+      activationPromise,
+      expectedPromise,
+      actualPromise,
+    ]).then((values) => {
+      const expected = values[1];
+      const actual = values[2];
+      expect(actual).toBe(expected);
+    }));
+  });
+
+  it('can be toggled.', () => {
+    const expectedPromiseIfOn = helper.handleFileInEditor(
+      pathExpected,
+      editor => editor.getText(),
+    );
+    const expectedPromiseIfOff = helper.handleFileInEditor(
+      pathExpectedIfNoExec,
+      editor => editor.getText(),
+    );
+
+    const createActualPromise = () => {
       atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
+      return helper.handleFileInEditor(pathCopyFrom, (editor) => {
+        editor.setSelectedBufferRange([[11, 4], [28, 10]]);
+        // editor.copySelectedText();
+        return editor.getSelectedText();
+      }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
+        editor.setCursorBufferPosition([1, 4]);
+        // editor.pasteText();
+        editor.insertText(copiedText);
+        return editor.getText();
+      }));
+    };
 
-      waitsForPromise(() => {
-        return activationPromise;
-      });
+    const actuals = [];
+    const actualPromise = Promise.resolve()
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value))
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value))
+      .then(() => createActualPromise())
+      .then(value => actuals.push(value));
 
-      runs(() => {
-        expect(workspaceElement.querySelector('.html-elmfier')).toExist();
-
-        let htmlElmfierElement = workspaceElement.querySelector('.html-elmfier');
-        expect(htmlElmfierElement).toExist();
-
-        let htmlElmfierPanel = atom.workspace.panelForItem(htmlElmfierElement);
-        expect(htmlElmfierPanel.isVisible()).toBe(true);
-        atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
-        expect(htmlElmfierPanel.isVisible()).toBe(false);
-      });
-    });
-
-    it('hides and shows the view', () => {
-      // This test shows you an integration test testing at the view level.
-
-      // Attaching the workspaceElement to the DOM is required to allow the
-      // `toBeVisible()` matchers to work. Anything testing visibility or focus
-      // requires that the workspaceElement is on the DOM. Tests that attach the
-      // workspaceElement to the DOM are generally slower than those off DOM.
-      jasmine.attachToDOM(workspaceElement);
-
-      expect(workspaceElement.querySelector('.html-elmfier')).not.toExist();
-
-      // This is an activation event, triggering it causes the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
-
-      waitsForPromise(() => {
-        return activationPromise;
-      });
-
-      runs(() => {
-        // Now we can test for view visibility
-        let htmlElmfierElement = workspaceElement.querySelector('.html-elmfier');
-        expect(htmlElmfierElement).toBeVisible();
-        atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
-        expect(htmlElmfierElement).not.toBeVisible();
-      });
-    });
+    waitsForPromise(() => Promise.all([
+      activationPromise,
+      expectedPromiseIfOn,
+      expectedPromiseIfOff,
+      actualPromise,
+    ]).then((values) => {
+      const expectedIfOn = values[1];
+      const expectedIfOff = values[2];
+      expect(actuals[0]).toBe(expectedIfOff);
+      expect(actuals[1]).toBe(expectedIfOn);
+      expect(actuals[2]).toBe(expectedIfOff);
+    }));
   });
 });
