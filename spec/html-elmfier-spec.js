@@ -21,6 +21,20 @@ describe('HtmlElmfier', () => {
   const pathExpectedIfNoExec = path.resolve(__dirname,
     './fixtures/expectedIfNoExec.elm');
 
+  const getCopyRange = editor => {
+    let copyStartPoint;
+    let copyEndPoint;
+    editor.scan(/\^\^\^\^/, object => {
+      copyStartPoint = object.range.end;
+      object.stop();
+    });
+    editor.scan(/\$\$\$\$/, object => {
+      copyEndPoint = object.range.start;
+      object.stop();
+    });
+    return [copyStartPoint, copyEndPoint];
+  };
+
   beforeEach(() => {
     workspaceElement = atom.views.getView(atom.workspace);
     activationPromise = atom.packages.activatePackage('html-elmfier');
@@ -33,7 +47,8 @@ describe('HtmlElmfier', () => {
     );
 
     const actualPromise = helper.handleFileInEditor(pathCopyFrom, (editor) => {
-      editor.setSelectedBufferRange([[11, 4], [28, 10]]);
+      const CopyRange = getCopyRange(editor);
+      editor.setSelectedBufferRange(CopyRange);
       // editor.copySelectedText();
       return editor.getSelectedText();
     }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
@@ -67,7 +82,8 @@ describe('HtmlElmfier', () => {
     const createActualPromise = () => {
       atom.commands.dispatch(workspaceElement, 'html-elmfier:toggle');
       return helper.handleFileInEditor(pathCopyFrom, (editor) => {
-        editor.setSelectedBufferRange([[11, 4], [28, 10]]);
+        const CopyRange = getCopyRange(editor);
+        editor.setSelectedBufferRange(CopyRange);
         // editor.copySelectedText();
         return editor.getSelectedText();
       }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
