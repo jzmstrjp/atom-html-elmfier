@@ -16,4 +16,7 @@ view model =
                 <td colspan="3" rowspan="3">td</td>
             </tr>
         </table>
+        <input type="button" value="-"/>
+        <div>0</div>
+        <input type="button" value="+"/>
     </div>

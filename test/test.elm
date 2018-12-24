@@ -14,5 +14,7 @@ view model =
         table [ class "table_class" ] [
             tbody [] [
                 tr [] [
-                    td [ colspan 3, rowspan 3 ] [ text "td" ] ] ] ] ]
-    
+                    td [ colspan 3, rowspan 3 ] [ text "td" ] ] ] ],
+        input [ type_ "button", value "-" ] [],
+        div [] [ text "0" ],
+        input [ type_ "button", value "+" ] [] ]
