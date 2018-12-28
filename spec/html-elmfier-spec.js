@@ -21,14 +21,14 @@ describe('HtmlElmfier', () => {
   const pathExpectedIfNoExec = path.resolve(__dirname,
     './fixtures/expectedIfNoExec.elm');
 
-  const getCopyRange = editor => {
+  const getCopyRange = (editor) => {
     let copyStartPoint;
     let copyEndPoint;
-    editor.scan(/\^\^\^\^/, object => {
+    editor.scan(/\^\^\^\^/, (object) => {
       copyStartPoint = object.range.end;
       object.stop();
     });
-    editor.scan(/\$\$\$\$/, object => {
+    editor.scan(/\$\$\$\$/, (object) => {
       copyEndPoint = object.range.start;
       object.stop();
     });
