@@ -1,5 +1,6 @@
 view model =
-    div [ class "wrapper", id "wrapper" ] [ text "This is the beginning.",
+    div [ class "wrapper", id "wrapper" ] [
+        text "This is the beginning.",
         nav [ class "gNav", id "gNav" ] [
             ul [ class "gNav__list" ] [
                 li [] [
@@ -10,12 +11,18 @@ view model =
                         span [] [ text "link link link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
-                        span [] [ text "link" ] ] ] ] ], text "When",
-        b [] [ text "you" ], text "gaze into the",
-        b [] [ text "abyss" ], text ",",
-        br [] [], text "the",
-        b [] [ text "abyss" ], text "gazes into",
-        b [] [ text "you" ], text ".",
+                        span [] [ text "link" ] ] ] ] ],
+        text "When",
+        b [] [ text "you" ],
+        text "gaze into the",
+        b [] [ text "abyss" ],
+        text ",",
+        br [] [],
+        text "the",
+        b [] [ text "abyss" ],
+        text "gazes into",
+        b [] [ text "you" ],
+        text ".",
         table [ class "table_class" ] [
             tbody [] [
                 tr [] [
