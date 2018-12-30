@@ -1,7 +1,7 @@
 {
   "name": "html-elmfier",
   "main": "./lib/html-elmfier",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Please paste HTML, and it becomes Elm.",
   "keywords": [
     "Elm",
