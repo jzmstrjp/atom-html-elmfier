@@ -7,6 +7,7 @@ module.exports = {
     document: false,
     expect: false,
     it: false,
+    Node: false,
     waitsFor: false,
     waitsForPromise: false,
     runs: false,
