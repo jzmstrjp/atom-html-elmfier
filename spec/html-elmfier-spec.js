@@ -52,7 +52,7 @@ describe('HtmlElmfier', () => {
       // editor.copySelectedText();
       return editor.getSelectedText();
     }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
-      editor.setCursorBufferPosition([1, 4]);
+      editor.setCursorBufferPosition([1, 8]);
       // editor.pasteText();
       editor.insertText(copiedText);
       return editor.getText();
@@ -87,7 +87,7 @@ describe('HtmlElmfier', () => {
         // editor.copySelectedText();
         return editor.getSelectedText();
       }).then(copiedText => helper.handleFileInEditor(pathCopyTo, (editor) => {
-        editor.setCursorBufferPosition([1, 4]);
+        editor.setCursorBufferPosition([1, 8]);
         // editor.pasteText();
         editor.insertText(copiedText);
         return editor.getText();
