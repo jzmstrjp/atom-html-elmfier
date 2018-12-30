@@ -4,6 +4,7 @@ view model =
         <nav class="gNav" id="gNav">
             <ul class="gNav__list">
                 <li><a href="aaa.html"><span>link"link'link</span></a></li>
+                <li><a href="aaa.html"><span>link&quot;link&#39;link</span></a></li>
                 <li><a href="aaa.html"><span>
                   link
                   link

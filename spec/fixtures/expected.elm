@@ -8,6 +8,9 @@ view model =
                         span [] [ text "link\"link\'link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
+                        span [] [ text "link\"link\'link" ] ] ],
+                li [] [
+                    a [ href "aaa.html" ] [
                         span [] [ text "link link link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
