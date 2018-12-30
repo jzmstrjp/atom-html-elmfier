@@ -5,10 +5,10 @@ view model =
             ul [ class "gNav__list" ] [
                 li [] [
                     a [ href "aaa.html" ] [
-                        span [] [ text "link\"link\'link" ] ] ],
+                        span [] [ text "link\"li nk\'link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
-                        span [] [ text "link\"link\'link" ] ] ],
+                        span [] [ text "link\"li nk\'link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
                         span [] [ text "link link link" ] ] ],
