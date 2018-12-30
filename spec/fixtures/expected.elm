@@ -5,7 +5,7 @@ view model =
             ul [ class "gNav__list" ] [
                 li [] [
                     a [ href "aaa.html" ] [
-                        span [] [ text "link" ] ] ],
+                        span [] [ text "link\"link\'link" ] ] ],
                 li [] [
                     a [ href "aaa.html" ] [
                         span [] [ text "link link link" ] ] ],

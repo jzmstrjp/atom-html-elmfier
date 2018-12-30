@@ -3,7 +3,7 @@ view model =
         This is the beginning.
         <nav class="gNav" id="gNav">
             <ul class="gNav__list">
-                <li><a href="aaa.html"><span>link</span></a></li>
+                <li><a href="aaa.html"><span>link"link'link</span></a></li>
                 <li><a href="aaa.html"><span>
                   link
                   link
