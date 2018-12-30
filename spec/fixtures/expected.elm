@@ -4,6 +4,8 @@ view model =
         nav [ class "gNav", id "gNav" ] [
             ul [ class "gNav__list" ] [
                 li [] [
+                    div [] [ text "<>& \"\'" ] ],
+                li [] [
                     a [ href "aaa.html" ] [
                         span [] [ text "link\"li nk\'link" ] ] ],
                 li [] [
