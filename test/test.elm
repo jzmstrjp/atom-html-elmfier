@@ -1,6 +1,6 @@
 main_ [] [
-    div [ id "ball", class "ball", style "width" "46px", style "left" "46px", style "top" "-5.5px" ] [],
-    div [ id "ball", class "ball", style "left" "950px" ] [],
+    div [ attribute "data-v-5be316d0" "", id "ball", class "ball", style "width" "46px", style "left" "46px", style "top" "-5.5px" ] [],
+    div [ attribute "data-v-5be316d0" "", id "ball", class "ball", style "left" "950px" ] [],
     div [ class "wrapper", id "wrapper" ] [
         text "This is the beginning.",
         nav [ class "gNav", id "gNav" ] [
